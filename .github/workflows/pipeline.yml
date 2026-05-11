@@ -1,24 +1,30 @@
-name: React Vite CI
+name: App Pipeline
+
 on:
   push:
-    branches: ["*"]
+    branches:
+      - develop
     paths-ignore:
-      - "README.md"
-      - "docs/**"
-  pull_request:
-    branches: [master]
-    paths-ignore:
-      - "README.md"
-      - "docs/**"
-jobs:
-  all-cli-checks:
-    runs-on: ubuntu-latest
+      - '.github/workflows/**'
+      - '*.md'
+      - 'README*'
+  workflow_dispatch:
 
+permissions:
+  contents: write
+  actions: read
+  issues: write
+
+jobs:
+  # ── 1. Build & Test su develop ─────────────────────────────────────────────
+  build:
+    name: React Vite Build & Test
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: lts/*
+          node-version: '20'
       - name: Set environment variables
         run: mv .env.example .env
       - name: Install dependencies
@@ -31,28 +37,13 @@ jobs:
         run: yarn lint
       - name: Check types
         run: yarn check-types
-  e2e:
-    timeout-minutes: 60
-    runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-      - name: Set environment variables
-        run: mv .env.example-e2e .env
-      - name: Install dependencies
-        run: npm install -g yarn && yarn
-      - name: Install Playwright Browsers
-        run: yarn playwright install --with-deps
-      - name: Run Playwright tests
-        run: yarn test-e2e
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: playwright-report
-          path: |
-            playwright-report/
-            mocked-db.json
-          retention-days: 30
+  # ── 2. Se fallisce → triggera failure handler immediatamente ───────────────
+  on-failure:
+    name: Trigger Failure Handler
+    needs: build
+    if: failure()
+    uses: org-test-reply-1/platform-ai-workflows/.github/workflows/ai-failure-handler.yml@main
+    secrets:
+      COPILOT_ASSIGN_PAT: ${{ secrets.COPILOT_ASSIGN_PAT }}
+      TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
