@@ -1,5 +1,5 @@
 name: GitHub Actions AI
-run-name: test-runner-gabri
+run-name: storefront-app-ai
 
 on:
   schedule:
