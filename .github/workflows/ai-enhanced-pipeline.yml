@@ -1,0 +1,48 @@
+name: AI-Enhanced CI/CD Pipeline
+
+on:
+  schedule:
+    - cron: '30 6 * * 1-5'
+  workflow_dispatch:
+    inputs:
+      enable-ai-scan:
+        description: 'Enable AI Security Scan'
+        type: boolean
+        default: true
+      fail-on-critical:
+        description: 'Fail build on critical vulnerabilities'
+        type: boolean
+        default: false
+      scan-paths:
+        description: 'Paths to scan (comma-separated)'
+        type: string
+        default: '.'
+  # push:
+  #   branches:
+  #     - main
+  # pull_request:
+  #   branches:
+  #     - main
+
+permissions:
+  contents: read
+  issues: write
+  actions: read
+
+jobs:
+  # ========================================================
+  # AI Security Scan — Crea issue e assegna al Coding Agent
+  # ========================================================
+  ai-security-scan:
+    name: AI Security Scan
+    if: inputs.enable-ai-scan != false || github.event_name != 'workflow_dispatch'
+    uses: org-test-reply-1/platform-ai-workflows/.github/workflows/ai-security-scan.yml@main
+    with:
+      scan-paths: '.'
+      fail-on-critical: ${{ inputs.fail-on-critical || false }}
+    permissions:
+      contents: read
+      issues: write
+      actions: read
+    secrets:
+      COPILOT_ASSIGN_PAT: ${{ secrets.COPILOT_ASSIGN_PAT }}

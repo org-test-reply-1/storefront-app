@@ -1,0 +1,13 @@
+name: Daily Changes Summary
+
+on:
+  schedule:
+    - cron: '30 15 * * 1-5'   
+  workflow_dispatch:
+
+jobs:
+  summary:
+    uses: org-test-reply-1/platform-ai-workflows/.github/workflows/ai-daily-summary.yml@main
+    secrets:
+      COPILOT_ASSIGN_PAT: ${{ secrets.COPILOT_ASSIGN_PAT }}
+      TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
