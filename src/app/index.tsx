@@ -1,6 +1,6 @@
 import { AppProvider } from './provider';
 import { AppRouter } from './router';
-// abc
+abc
 export const App = () => {
   return (
     <AppProvider>
