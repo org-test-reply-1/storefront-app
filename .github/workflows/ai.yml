@@ -8,5 +8,7 @@ on:
 
 jobs:
   call-workflow:
-    uses: org-test-reply-1/platform-ai-workflows/.github/workflows/ai-failure-handler.yml@main
-    secrets: inherit
+    uses: org-test-reply-1/platform-ai-workflows/.github/workflows/ai-failure-handler.yml@bfaa4b61588fbec03b885a2fbf4940537c590658
+    secrets:
+      COPILOT_ASSIGN_PAT: ${{ secrets.COPILOT_ASSIGN_PAT }}
+      TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}

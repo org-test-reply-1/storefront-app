@@ -7,6 +7,6 @@ on:
 jobs:
   notify:
     if: contains(github.event.pull_request.user.login, 'copilot')
-    uses: org-test-reply-1/platform-ai-workflows/.github/workflows/ai-pr-notify.yml@main
+    uses: org-test-reply-1/platform-ai-workflows/.github/workflows/ai-pr-notify.yml@bfaa4b61588fbec03b885a2fbf4940537c590658
     secrets:
       TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}

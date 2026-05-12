@@ -5,15 +5,13 @@ on:
     branches:
       - develop
     paths-ignore:
-      - '.github/workflows/**'
       - '*.md'
       - 'README*'
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   actions: read
-  issues: write
 
 jobs:
   # ── 1. Build & Test su develop ─────────────────────────────────────────────
@@ -45,7 +43,11 @@ jobs:
     name: Trigger Failure Handler
     needs: build
     if: failure()
-    uses: org-test-reply-1/platform-ai-workflows/.github/workflows/ai-failure-handler.yml@main
+    permissions:
+      contents: read
+      actions: read
+      issues: write
+    uses: org-test-reply-1/platform-ai-workflows/.github/workflows/ai-failure-handler.yml@bfaa4b61588fbec03b885a2fbf4940537c590658
     secrets:
       COPILOT_ASSIGN_PAT: ${{ secrets.COPILOT_ASSIGN_PAT }}
       TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}

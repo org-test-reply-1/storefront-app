@@ -7,7 +7,7 @@ on:
 
 jobs:
   summary:
-    uses: org-test-reply-1/platform-ai-workflows/.github/workflows/ai-daily-summary.yml@main
+    uses: org-test-reply-1/platform-ai-workflows/.github/workflows/ai-daily-summary.yml@bfaa4b61588fbec03b885a2fbf4940537c590658
     secrets:
       COPILOT_ASSIGN_PAT: ${{ secrets.COPILOT_ASSIGN_PAT }}
       TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
