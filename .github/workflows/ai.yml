@@ -8,6 +8,10 @@ on:
 
 jobs:
   call-workflow:
+    permissions:
+      contents: read
+      actions: read
+      issues: write
     uses: org-test-reply-1/platform-ai-workflows/.github/workflows/ai-failure-handler.yml@bfaa4b61588fbec03b885a2fbf4940537c590658
     secrets:
       COPILOT_ASSIGN_PAT: ${{ secrets.COPILOT_ASSIGN_PAT }}
