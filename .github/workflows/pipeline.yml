@@ -15,7 +15,7 @@ permissions:
   contents: write
   actions: read
   issues: write
-
+#testing
 jobs:
   # ── 1. Build & Test su develop ─────────────────────────────────────────────
   build:
