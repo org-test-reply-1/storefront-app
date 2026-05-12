@@ -21,7 +21,8 @@ jobs:
   build:
     name: React Vite Build & Test
     if: github.ref == 'refs/heads/develop'
-    runs-on: arc-runner-react
+    #runs-on: arc-runner-react
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       #- uses: actions/setup-node@v4
