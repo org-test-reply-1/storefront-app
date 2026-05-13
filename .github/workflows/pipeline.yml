@@ -12,9 +12,8 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   actions: read
-  issues: write
 #testing
 jobs:
   # ── 1. Build & Test su develop ─────────────────────────────────────────────
@@ -23,6 +22,8 @@ jobs:
     if: github.ref == 'refs/heads/develop'
     #runs-on: arc-runner-react
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
       #- uses: actions/setup-node@v4
@@ -48,9 +49,13 @@ jobs:
     name: Trigger Failure Handler
     needs: build
     if: failure()
-    uses: org-test-reply-1/platform-ai-workflows/.github/workflows/ai-failure-handler.yml@main
+    uses: org-test-reply-1/platform-ai-workflows/.github/workflows/ai-failure-handler.yml@a87037605c174207eab693e2a868d5b7712a63bb
     with:
       target-repo: ${{ github.repository }}
+    permissions:
+      contents: read
+      actions: read
+      issues: write
     secrets:
       COPILOT_ASSIGN_PAT: ${{ secrets.COPILOT_ASSIGN_PAT }}
       TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
@@ -60,6 +65,8 @@ jobs:
     name: Deploy to Vercel
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

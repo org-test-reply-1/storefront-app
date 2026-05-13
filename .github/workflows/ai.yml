@@ -6,7 +6,18 @@ on:
     - cron: '0 */2 * * *' 
   workflow_dispatch:
 
+permissions:
+  contents: read
+  actions: read
+  issues: write
+
 jobs:
   call-workflow:
-    uses: org-test-reply-1/platform-ai-workflows/.github/workflows/ai-failure-handler.yml@main
-    secrets: inherit
+    uses: org-test-reply-1/platform-ai-workflows/.github/workflows/ai-failure-handler.yml@a87037605c174207eab693e2a868d5b7712a63bb
+    permissions:
+      contents: read
+      actions: read
+      issues: write
+    secrets:
+      COPILOT_ASSIGN_PAT: ${{ secrets.COPILOT_ASSIGN_PAT }}
+      TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}

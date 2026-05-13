@@ -5,9 +5,14 @@ on:
     - cron: '30 15 * * 1-5'   
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   summary:
-    uses: org-test-reply-1/platform-ai-workflows/.github/workflows/ai-daily-summary.yml@main
+    uses: org-test-reply-1/platform-ai-workflows/.github/workflows/ai-daily-summary.yml@a87037605c174207eab693e2a868d5b7712a63bb
+    permissions:
+      contents: read
     secrets:
       COPILOT_ASSIGN_PAT: ${{ secrets.COPILOT_ASSIGN_PAT }}
       TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
