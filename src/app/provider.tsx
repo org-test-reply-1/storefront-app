@@ -50,5 +50,3 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     </React.Suspense>
   );
 };
-
-sfijopifjrjqqwiopiopdkfopqwe
