@@ -1,5 +1,4 @@
 name: App Pipeline
-
 on:
   push:
     branches:
@@ -10,28 +9,19 @@ on:
       - '*.md'
       - 'README*'
   workflow_dispatch:
-
 permissions:
   contents: write
   actions: read
   issues: write
-#testing
 jobs:
-  # ── 1. Build & Test su develop ─────────────────────────────────────────────
   build:
     name: React Vite Build & Test
     if: github.ref == 'refs/heads/develop'
-    #runs-on: arc-runner-react
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      #- uses: actions/setup-node@v4
-      #  with:
-      #    node-version: '20'
       - name: Set environment variables
         run: mv .env.example .env
-      #- name: Install dependencies
-      #  run: yarn install
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Build application
@@ -42,8 +32,6 @@ jobs:
         run: yarn lint
       - name: Check types
         run: yarn check-types
-
-  # ── 2. Se fallisce → triggera failure handler immediatamente ───────────────
   on-failure:
     name: Trigger Failure Handler
     needs: build
@@ -51,11 +39,10 @@ jobs:
     uses: org-test-reply-1/platform-ai-workflows/.github/workflows/ai-failure-handler.yml@main
     with:
       target-repo: ${{ github.repository }}
+      failed-run-id: ${{ github.run_id }}
     secrets:
       COPILOT_ASSIGN_PAT: ${{ secrets.COPILOT_ASSIGN_PAT }}
       TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
-
-  # ── 3. Deploy to Vercel su main ───────────────────────────────────────────
   deploy:
     name: Deploy to Vercel
     if: github.ref == 'refs/heads/main'
