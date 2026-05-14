@@ -84,5 +84,5 @@ export const AppRouter = () => {
 
   const router = useMemo(() => createAppRouter(queryClient), [queryClient]);
 
-  return <RouterProvider router={router} />;
+  return <RouterProvider router={router} />
 };
