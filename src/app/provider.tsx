@@ -11,7 +11,7 @@ import { AuthLoader } from '@/lib/auth';
 import { queryConfig } from '@/lib/react-query';
 
 type AppProviderProps = {
-  children: 
+  children: React.ReactNode;
 };
 
 export const AppProvider = ({ children }: AppProviderProps) => {
