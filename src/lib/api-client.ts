@@ -3,6 +3,7 @@ import Axios, { InternalAxiosRequestConfig } from 'axios';
 import { useNotifications } from '@/components/ui/notifications';
 import { env } from '@/config/env';
 import { paths } from '@/config/paths';
+import { sanitizeRedirectUrl } from '@/utils/redirect';
 
 function authRequestInterceptor(config: InternalAxiosRequestConfig) {
   if (config.headers) {
@@ -31,9 +32,14 @@ api.interceptors.response.use(
     });
 
     if (error.response?.status === 401) {
-      const searchParams = new URLSearchParams();
-      const redirectTo =
-        searchParams.get('redirectTo') || window.location.pathname;
+      const searchParams = new URLSearchParams(window.location.search);
+      // Sanitize the redirect target to prevent open-redirect attacks.
+      // window.location.pathname is used as a safe default when no
+      // redirectTo param is present; it is always a valid relative path.
+      const redirectTo = sanitizeRedirectUrl(
+        searchParams.get('redirectTo'),
+        window.location.pathname,
+      );
       window.location.href = paths.auth.login.getHref(redirectTo);
     }
 
