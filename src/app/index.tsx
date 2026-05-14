@@ -7,7 +7,3 @@ export const App = () => {
     </AppProvider>
   );
 };
-ERRORE
-ERRORE 2
-ERRORE 3
-ERRORE 3 
