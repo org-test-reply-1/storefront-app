@@ -15,6 +15,3 @@ enableMocking().then(() => {
     </React.StrictMode>,
   );
 });
-
-ERRORE 
-ERRORE 2
