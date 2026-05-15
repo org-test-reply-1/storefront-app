@@ -50,3 +50,6 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     </React.Suspense>
   );
 };
+
+
+ADDING ERROR 
