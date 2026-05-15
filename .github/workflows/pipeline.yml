@@ -10,7 +10,7 @@ on:
       - 'README*'
   workflow_dispatch:
 permissions:
-  contents: write
+  contents: read
   actions: read
   issues: write
 jobs:
